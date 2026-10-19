@@ -175,7 +175,9 @@ def _parse_date(value: str) -> datetime:
         return datetime.fromisoformat(value)
     except (ValueError, TypeError):
         try:
-            return dateutil.parser.parse(value)
+            # Fill missing parts with the start of the period ("2024" -> 2024-01-01) instead of dateutil's
+            # default of today's date, which made the result change from day to day
+            return dateutil.parser.parse(value, default=datetime(1, 1, 1))
         except (ValueError, TypeError) as exc:
             msg = (
                 "Can't compare strings using operators '>', '>=', '<', '<='. "

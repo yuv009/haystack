@@ -144,6 +144,24 @@ document_matches_filter_data = [
         id="> operator with ISO 8601 string filter value and datetime Document value",
     ),
     pytest.param(
+        {"field": "meta.date", "operator": ">=", "value": "2024"},
+        Document(meta={"date": "2024-01-01"}),
+        True,
+        id=">= operator with year-only filter value starts at the beginning of the year",
+    ),
+    pytest.param(
+        {"field": "meta.date", "operator": "<", "value": "2024"},
+        Document(meta={"date": "2024-02-10"}),
+        False,
+        id="< operator with year-only filter value excludes dates in that year",
+    ),
+    pytest.param(
+        {"field": "meta.date", "operator": ">=", "value": "2024-06"},
+        Document(meta={"date": "2024-06-01"}),
+        True,
+        id=">= operator with year-month filter value starts at the beginning of the month",
+    ),
+    pytest.param(
         {"field": "meta.date", "operator": ">", "value": datetime(2023, 1, 1, tzinfo=UTC)},
         Document(meta={"date": datetime(2024, 1, 1)}),
         True,

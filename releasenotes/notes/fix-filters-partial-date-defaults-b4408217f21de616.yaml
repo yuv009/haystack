@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Filters with the ``>``, ``>=``, ``<`` and ``<=`` operators now fill the missing parts of a partial date with the
+    start of the period, so ``"2024"`` means ``2024-01-01`` and ``"2024-06"`` means ``2024-06-01``. Previously,
+    the missing month and day were taken from the current date, so a filter like ``>= "2024"`` left out most of
+    2024 and returned different Documents depending on the day it ran.
